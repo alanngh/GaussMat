@@ -147,4 +147,26 @@ grid on
 
 fprintf('\n\n')
 
+figure(2)
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'spectra','-dpdf','-fillpage')
 
+figure(3)
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'bounds','-dpdf','-fillpage')
+
+figure(4)
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'plot1','-dpdf','-fillpage')
+
+figure(5)
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'plot2','-dpdf','-fillpage')
