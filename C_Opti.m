@@ -42,7 +42,7 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
 
    for i = 1:20
         fprintf('\n Iterating solution %d for fmin = %e' ,i,fmin)
-        c_opt1 = fminunc(@(x) f(x,A,t,x0), c_opt+0.1*rand(size(c_opt)),opt);
+        c_opt1 = fminunc(@(x) f(x,A,t,x0), c_opt + rand(size(c_opt)),opt);
         %c_opt = fminunc(@(x) f(x,A,t,x0), c_opt,opt);
         [f0,C0,R0] = f(c_opt1,A,t,x0);
         if (f0 < fmin)
