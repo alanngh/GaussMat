@@ -21,7 +21,7 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
     %opt = optimoptions( 'OptimalityTolerance', 1e-12); 
     %opt.StepTolerance = 1e-12;
     %opt = optimset(opt, 'Algorithm','active-set');
-    opt = optimset(opt,'TolFun',1e-12,'TolX',1e-12,'Algorithm','active-set','MaxFunEvals',10000000,'Display','off'); %% TO DO: increase tol  
+    opt = optimset(opt,'TolFun',1e-16,'TolX',1e-16,'Algorithm','active-set','MaxFunEvals',100000000,'Display','off'); %% TO DO: increase tol  
     fprintf('\n runinng fminunc')
     c_opt = fminunc(@(x) f(x,A,t,x0),c0,opt);              
     fprintf('\n getting matrices obtained')
@@ -42,7 +42,7 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
 
    for i = 1:15
         fprintf('\n Iterating solution %d for fmin = %e' ,i,fmin)
-        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt+0.5*rand(size(c_opt)),opt);
+        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt+0.1*rand(size(c_opt)),opt);
         %c_opt = fminunc(@(x) f(x,A,t,x0), c_opt,opt);
         [f0,C0,R0] = f(c_opt,A,t,x0);
         if (f0 < fmin)
