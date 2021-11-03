@@ -20,8 +20,8 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
     % Set OptimalityTolerance to 1e-3
     %opt = optimoptions( 'OptimalityTolerance', 1e-12); 
     %opt.StepTolerance = 1e-12;
-    %opt = optimset(opt, 'Algorithm','active-set');
-    opt = optimset(opt,'TolFun',1e-18,'TolX',1e-18,'MaxFunEvals',100000000,'Display','off'); %% TO DO: increase tol  
+    opt = optimset(opt, 'Algorithm','active-set');
+    opt = optimset(opt,'TolFun',1e-20,'TolX',1e-20,'MaxFunEvals',1000000000,'Display','off'); %% TO DO: increase tol  
     fprintf('\n runinng fminunc')
     c_opt = fminunc(@(x) f(x,A,t,x0),c0,opt);              
     fprintf('\n getting matrices obtained')
