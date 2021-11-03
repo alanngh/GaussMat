@@ -115,9 +115,16 @@ for p = 1:m
 
     TopN = max([max(NY),max(Bnd),1e+2]);
     TopN = num2str(TopN);
-    ind = length(TopN);
-    Ax1 = str2num(['1e+',num2str(ind-1)]);
-    
+    ind  = strfind(TopN,'+');  	
+    if (length(ind) > 0)
+	Ax1 = TopN((ind+1):end);
+	Ax1 = str2num(['1e+',num2str(Ax1)]);
+    else
+    	TopN = num2str(TopN);
+    	ind = length(TopN);
+	Ax1 = str2num(['1e+',num2str(ind-1)]);
+    end
+
     TopN = min([min(NY),min(Bnd),1e-3]);
     TopN = num2str(TopN);
     ind = strfind(TopN,'-');
