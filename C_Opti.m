@@ -29,8 +29,8 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
     
     for i = 1:max(15,n)        
         fprintf('\n Iterating solution %d for fmin = %e' ,i,fmin)
-        %c_opt = fminunc(@(x) f(x,A,t,x0), c_opt+0.5*rand(size(c_opt)),opt);               
-        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt,opt);               
+        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt+0.5*rand(size(c_opt)),opt);               
+        %c_opt = fminunc(@(x) f(x,A,t,x0), c_opt,opt);               
         [f0,C0,R0] = f(c_opt,A,t,x0);
         if (f0 < fmin)
             fprintf('\n better optimal founded fmin = %e ...',f0)
