@@ -112,7 +112,24 @@ for p = 1:m
     semilogy(t,GBnd_t,'linewidth',2,'color',newcolors(p,:)) ;
     %hL = line([T(p),T(p)], ylim,'color','k','LineStyle','--', 'LineWidth', 1); % Draw line for Y axis.
     grid on
-    axis([a b 1e-5 1e3])
+
+    TopN = max([max(NY),max(Bnd),1e+2]);
+    TopN = num2str(TopN);
+    ind = length(TopN);
+    Ax1 = str2num(['1e+',num2str(ind-1)]);
+    
+    TopN = min([min(NY),min(Bnd),1e-3]);
+    TopN = num2str(TopN);
+    ind = strfind(TopN,'-');
+    if (length(ind) > 0)
+    	Ax2 = TopN((ind+1):end);
+    	Ax2 = str2num(['1e-',num2str(str2num(Ax2))]);
+    else
+   	ind = strfind(TopN,'.');
+	Ax2 = length(TopN((ind+1):end));
+	Ax2 = str2num(['1e-',num2str(Ax2)]);
+    end
+    axis([a b Ax2 Ax1])
     
     figure(h2);
     hold on
@@ -151,13 +168,13 @@ figure(2)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'spectra','-dpdf','-fillpage')
+print(F,'bounds','-dpdf','-fillpage')
 
 figure(3)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'bounds','-dpdf','-fillpage')
+print(F,'spectra','-dpdf','-fillpage')
 
 figure(4)
 F = gcf;
