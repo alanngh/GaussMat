@@ -47,7 +47,7 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
         [f0,C0,R0] = f(c_opt1,A,t,x0);
         if (f0 < fmin)
             fprintf('\n better optimal founded fmin = %e ...',f0)
-	    c_opt = c_opt1;  % i wasn't updating this one
+	    %c_opt = c_opt1;  % i wasn't updating this one
             fmin = f0;
             Cop = C0;
             Rop = R0;
