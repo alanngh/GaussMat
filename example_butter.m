@@ -1,6 +1,7 @@
-clc, clear all, close all
+function example_butter(n) 
+clc,  close all
 
-n = 16
+%n = 16
 [A,B,C,D] = butter(n,1,'s');
 
 %eigtool(A)
@@ -175,22 +176,22 @@ figure(2)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'bounds','-dpdf','-fillpage')
+print(F,['~/Matlab/GaussMat/plots/bounds',num2str(n)],'-dpdf','-fillpage')
 
 figure(3)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'spectra','-dpdf','-fillpage')
+print(F,['~/Matlab/GaussMat/plots/spectra',num2str(n)],'-dpdf','-fillpage')
 
 figure(4)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'plot1','-dpdf','-fillpage')
+print(F,['~/Matlab/GaussMat/plots/plot1-',num2str(n)],'-dpdf','-fillpage')
 
 figure(5)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'plot2','-dpdf','-fillpage')
+print(F,['~/Matlab/GaussMat/plots/plot2-',num2str(n)],'-dpdf','-fillpage')
