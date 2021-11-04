@@ -1,11 +1,7 @@
-function example_butter(n) 
+function example_butter(n,a,b,step) 
 clc,  close all
 
-%n = 16
 [A,B,C,D] = butter(n,1,'s');
-
-%eigtool(A)
-
 X0 = ones(n,1);
 
 fprintf('\n Computing eigen decomposition...')
@@ -22,10 +18,8 @@ alpha = max(real(L));           %% spectral abscissa
 omega = max(real(eig(A+A')/2)); %% numerical abscissa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% plotting ||exp(At)||
-a = 0;
-b = 30;
 
-t = a:0.1:b;
+t = a:0.01:b;
 m = length(t);
 
 Bnd= zeros(m,1);
@@ -39,7 +33,7 @@ for k = 1:m
 end
 
 
-T = a:2:b;
+T = a:step:b;
 m = length(T)
 NP = m;
 
@@ -80,8 +74,7 @@ for p = 1:m
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % optimize C at time t
     if p == 1
-        R0 = rand(size(A));
-        R0 = R0*R0';
+        R0 = eye(size(A));
     else
         R0 = R;        
     end

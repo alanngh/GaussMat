@@ -9,7 +9,9 @@ function [fval,C,R] = f(c,A,t,x0)
             s = s+1;
         end
     end    
-    C = C*C'  ;  
+    C = C*C.';
+    C = (C+C.')/2;
+
     H = lyap(A',C);
     %eig(H)
     R = chol(H);
