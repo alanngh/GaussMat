@@ -60,7 +60,7 @@ h2 = figure('DefaultAxesFontSize',18);
 title('W(RAR^-^1)')
 hold on
 h(1) = plot(real(L),imag(L),'.k','markersize',15);
-h(2) = JohnsonAlg(A,50,[-3 3 -3 3],'C','-b') ;
+[h(2),CntL] = JohnsonAlg(A,500,[-3 3 -3 3],'C','-b') ;
 
 hL = '';
 
@@ -80,11 +80,8 @@ for p = 1:m
     end
     
      fprintf('\n optimizing C at t = %d ...',T(p))
-    [C,R] = C_Opti(A,T(p),X0,R0)
-    
-    %R = rand(3,3);
-    %C = 3*eye(3,3) + .5*(R+R');    
-    %C = eye(3);
+    ok = 0;
+    [C,R,ok] = C_Opti(A,T(p),X0,R0,CntL)
        
     Lab{p+1} = ['t = ',num2str(T(p),'%.2f')];
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                             
@@ -92,62 +89,55 @@ for p = 1:m
     H = lyap(A',C);        
     R = chol(H);
             
-    %Ri = inv(R);
-    %muH = -(1/2)*min(eig(R'*C*R));
-    
-    RARi = R*(A/R);
-    muH(p) = max(real(eig(RARi+RARi')/2));
-    CR(p) = cond(R);
+    if (ok == 1)
+        RARi = R*(A/R);
+        muH(p) = max(real(eig(RARi+RARi')/2));
+        CR(p) = cond(R);
 
-    GBnd_t = CR(p).*exp(t.*muH(p))*norm(X0);   
-    figure(h1);
-%    delete(hL);
-    hold on
-    semilogy(t,GBnd_t,'linewidth',2,'color',newcolors(p,:)) ;
-    %hL = line([T(p),T(p)], ylim,'color','k','LineStyle','--', 'LineWidth', 1); % Draw line for Y axis.
-    grid on
+        GBnd_t = CR(p).*exp(t.*muH(p))*norm(X0);   
+        figure(h1);
+        hold on
+        semilogy(t,GBnd_t,'linewidth',2,'color',newcolors(p,:)) ;
+        grid on
+    end
 
-    TopN = max([max(NY),max(Bnd),1e+2]);
+    TopN = max([max(NY),max(Bnd),1e+1]);
     TopN = num2str(TopN);
     ind  = strfind(TopN,'+');  	
     if (length(ind) > 0)
-	Ax1 = TopN((ind+1):end);
-	Ax1 = str2num(['1e+',num2str(Ax1)]);
+        Ax1 = TopN((ind+1):end);
+        Ax1 = str2num(['1e+',num2str(Ax1)]);
     else
     	TopN = num2str(TopN);
     	ind = length(TopN);
-	Ax1 = str2num(['1e+',num2str(ind-1)]);
+        Ax1 = str2num(['1e+',num2str(ind-1)]);
     end
 
-    TopN = min([min(NY),min(Bnd),1e-3]);
+    TopN = min([min(NY),min(Bnd),1e-1]);
     TopN = num2str(TopN);
     ind = strfind(TopN,'-');
+    
     if (length(ind) > 0)
     	Ax2 = TopN((ind+1):end);
     	Ax2 = str2num(['1e-',num2str(str2num(Ax2))]);
     else
-   	ind = strfind(TopN,'.');
-	Ax2 = length(TopN((ind+1):end));
-	Ax2 = str2num(['1e-',num2str(Ax2)]);
+        ind = strfind(TopN,'.');
+        Ax2 = length(TopN((ind+1):end));
+        Ax2 = str2num(['1e-',num2str(Ax2)]);
     end
     axis([a b Ax2 Ax1])
     
-    figure(h2);
-    hold on
-    h(2+p) = JohnsonAlg(R*A*inv(R),50,[-3 1 -2 2],'C','-',newcolors(p,:))    ;
-    grid on
-    h(2+ NP +1) = line([0,0], ylim,'color','k','LineStyle','--', 'LineWidth', 1); % Draw line for Y axis.
-    
-    
-    %pause
-    
-%     figure(h3);
-%     hold on
-%     JohnsonAlg(-.5*inv(R')*C*inv(R),50,[-5 1 -2 2],'C','-',newcolors(p,:))    ;
-%     eig(-.5*inv(R')*C*inv(R))
-%     grid on
-    
+    if (ok==1)
+        figure(h2);
+        hold on
+        h(2+p) = JohnsonAlg(R*A*inv(R),500,[-3 1 -2 2],'C','-',newcolors(p,:))    ;        
+    end
 end
+
+figure(h2);      
+hold on
+h(2+ NP +1) = line([0,0], ylim,'color','k','LineStyle','--', 'LineWidth', 1); % Draw line for Y axis.
+grid on
 
 
 figure('DefaultAxesFontSize',18); 

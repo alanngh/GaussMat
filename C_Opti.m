@@ -1,4 +1,4 @@
-function [Cop,Rop] = C_Opti(A,t,x0,C0)
+function [Cop,Rop,ok] = C_Opti(A,t,x0,C0,CntL)
     [m,n] = size(A);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% optimizing with an alias for A and t    
@@ -14,6 +14,7 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
         end
     end    
     
+    CL = CntL;
     
     %opt = optimoptions('fmincon')
     opt = optimset('MaxFunEvals',10000,'Display','on'); %% TO DO: increase tol  (double check!)
@@ -27,27 +28,35 @@ function [Cop,Rop] = C_Opti(A,t,x0,C0)
     fprintf('\n getting matrices obtained')
     [fmin,Cop,Rop] = f(c_opt,A,t,x0);
  
+    ok = 0;
+    
     for i = 1:15        
-        fprintf('\n Iterating solution %d for fmin = %e' ,i,fmin)               
+        fprintf('\n Iterating solution %d for Coun = %d and fmin = %e' ,i,CL,fmin)
         c_opt = fminunc(@(x) f(x,A,t,x0), c_opt,opt);               
-        [f0,C0,R0] = f(c_opt,A,t,x0);
-        if (f0 < fmin)
-            fprintf('\n better optimal founded fmin = %e ...',f0)
+        [f0,C0,R0] = f(c_opt,A,t,x0);      
+        [h1,NewCL] = JohnsonAlg(R0*A*inv(R0),500,[-3 3 -3 3],'N','-b');        
+        if (f0 < fmin && NewCL <  CL)           
+            CL = NewCL; 
             fmin = f0;
             Cop = C0;
             Rop = R0;
+            fprintf('\n better optimal founded Cont = %f and fmin = %e ...',CL,f0)
+            ok = 1;
         end
     end
 
    for i = 1:(3*n)
-        fprintf('\n Iterating solution %d for fmin = %e' ,i,fmin)
-        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt +  0.5*rand(size(c_opt)),opt);
+        fprintf('\n Iterating solution %d + rand for Coun = %d and fmin = %e' ,i,CL,fmin)
+        c_opt = fminunc(@(x) f(x,A,t,x0), c_opt +  0.1*rand(size(c_opt)),opt);
         [f0,C0,R0] = f(c_opt,A,t,x0);
-        if (f0 < fmin)
-            fprintf('\n better optimal founded fmin = %e ...',f0)
+        [h1,NewCL] = JohnsonAlg(R0*A*inv(R0),500,[-3 3 -3 3],'N','-b');
+        if (f0 < fmin && NewCL < CL)            
+            CL = NewCL;
             fmin = f0;
             Cop = C0;
             Rop = R0;
+            fprintf('\n better optimal founded Cont = %f and fmin = %e ...',CL,f0)
+            ok = 1;
         end
     end
   

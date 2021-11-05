@@ -1,4 +1,4 @@
-function h1 = JohnsonAlg(A,n,ax,T,C,opt)
+function varargout = JohnsonAlg(A,n,ax,T,C,opt)
 %
 % A : n by n matrix 
 % n : # of tangfent lines
@@ -6,6 +6,10 @@ function h1 = JohnsonAlg(A,n,ax,T,C,opt)
 % T = 'T' iindicates tangent lines and T = 'C' indicates Countour or 
 % T = 'B' for both
 % T = 'L'Countouur in log log
+% T = 'N' no plot
+%
+% returns h1 (legend handle)
+% could return W countour points if needed 
 Col = 1;
 
 if (nargin < 4) 
@@ -43,12 +47,16 @@ for k =1:n
     end
 end
 
+
+
 if(T=='C')
     if (Col == 0)
-        h1 = plot (real(W),imag(W),C,'linewidth',2);
+        h1 = plot (real(W),imag(W),C,'linewidth',2);        
+       
     else
         h1 = plot (real(W),imag(W),C,'linewidth',2,'color',opt);
     end
+    
 elseif (T=='B')
     if (Col == 0)
         h1 = plot (real(W),imag(W),C,'linewidth',2);
@@ -61,7 +69,27 @@ elseif (T == 'L')
     else
         h1 = loglog(real(W),imag(W),C,'linewidth',2,'color',opt);
     end
+elseif (T == 'N')
+    %% no plot   
+    h1 = [];
 end
 axis(ax);
+
+
+    for k = 1: max(nargout,1) 
+        if k == 1
+            varargout{1} = h1;
+        elseif k ==2
+            W = W';
+            np = length(W);
+            S = 0;
+            for i = 2:np    
+                S = S + norm([real(W(i)),imag(W(i))] - [real(W(i-1)),imag(W(i-1))]);    
+            end
+            S = S + norm([real(W(1)),imag(W(1))] - [real(W(np)),imag(W(np))]);
+            varargout{2} = S;
+        end
+    end    
+end
 %axis equal
 
