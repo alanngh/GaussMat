@@ -6,7 +6,7 @@ initial_time    = 0
 step            = 2 
 final_time    	= 30
 
-for n  = 4:1:16 
+for n  = 32 
 	example_butter(n,initial_time,final_time,step);
 end
 
