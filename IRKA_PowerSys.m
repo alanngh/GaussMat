@@ -64,9 +64,9 @@ it = 0;
 
 h = figure('DefaultAxesFontSize',18);
 
-%L  = eig(full(A),full(E)) 
-%plot(real(L),imag(L),'xr','markersize',20);
-%hold on
+L  = eig(full(A),full(E));
+plot(real(L),imag(L),'.r','markersize',20);
+hold on
 
 
 %tStart = tic;   
@@ -114,6 +114,12 @@ while (res > Tol && it < 500)
 end
 %tEnd = toc(tStart)
 
+
+hold on
+plot(real(sig),imag(sig),'.b','markersize',20);
+grid on
+box on
+
 r
 sig
 s = svd(full(Er)); 
@@ -157,6 +163,11 @@ axis([ax.XLim , ax.YLim ]);
 grid on
 box on
 
+figure
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'~/Matlab/GaussMat/plots/IRKA/Aprox1','-dpdf','-fillpage')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -293,10 +304,22 @@ box on
 %%%%%%%%%%%%%%%%%%
 hold on 
 
+figure
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'~/Matlab/GaussMat/plots/IRKA/approximations','-dpdf','-fillpage')
+
 
 figure
 sigma(sys-sysR,'-r',sys-sysR2,'-b')
 legend('Rank update','full')
+
+figure
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'~/Matlab/GaussMat/plots/IRKA/erros','-dpdf','-fillpage')
 
 %legend
 
