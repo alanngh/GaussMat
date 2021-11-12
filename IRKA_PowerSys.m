@@ -120,6 +120,12 @@ plot(real(sig),imag(sig),'.b','markersize',20);
 grid on
 box on
 
+
+F = gcf;
+set(F,'PaperOrientation','landscape');
+set(F, 'Position', get(0, 'Screensize'));
+print(F,'~/Matlab/GaussMat/plots/IRKA/spectra','-dpdf','-fillpage')
+
 r
 sig
 s = svd(full(Er)); 
@@ -163,7 +169,6 @@ axis([ax.XLim , ax.YLim ]);
 grid on
 box on
 
-figure
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
@@ -304,7 +309,6 @@ box on
 %%%%%%%%%%%%%%%%%%
 hold on 
 
-figure
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
@@ -315,7 +319,6 @@ figure
 sigma(sys-sysR,'-r',sys-sysR2,'-b')
 legend('Rank update','full')
 
-figure
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
