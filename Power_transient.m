@@ -36,7 +36,7 @@ end
 
   AA1.y = t;
   AA1.y = y;
-  save('ExpoBnd', '-struct', 'AA1');  
+  save('ExpoBnd.mat', '-struct', 'AA1');  
 
 
 
