@@ -24,19 +24,19 @@ At = E\A;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-i= 1;
-t = 0:0.1:30;
+%t = 0:0.1:30;
+t = 0:0.01:5;
 N = length(t);
 y = zeros(N,1);
 
 for i = 1:N
+    [i, t(i)]
     y(i) = norm(expm(At*t(i)));
-    i = i + 1
 end
 
   AA1.y = t;
   AA1.y = y;
-  save('ExpoBnd.mat', '-struct', 'AA1');  
+  save('ExpoBnd2.mat', '-struct', 'AA1');  
 
 
 
