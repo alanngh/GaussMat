@@ -2,22 +2,22 @@ clc, close all, clear all
 load('dynamicdata2.mat');
 
 
-%p = 200;   %% how much data form the case we take
+p = 500;   %% how much data form the case we take
 p = length(M(:,1));
 r = 100;
-% 
-% M = M(1:p,1:p);
-% L = L(1:p,1:p);
-% D = D(1:p,1:p);
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% L = round(L,5); 
-% for i = 1:p
-%     L(i,i) = 0;
-%     S = sum(L(i,:));
-%     L(i,i) = -S;
-% end
+
+M = M(1:p,1:p);
+L = L(1:p,1:p);
+D = D(1:p,1:p);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+L = round(L,5); 
+for i = 1:p
+    L(i,i) = 0;
+    S = sum(L(i,:));
+    L(i,i) = -S;
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 I = eye(p);
 Z = zeros(p);
@@ -85,7 +85,7 @@ N = 2*p;
     SO_min = min(S1_O)
     SR_min = min(S1_R)
      
-    Zk_Tol = inf;
+    Zk_Tol = 1e+80;
     TolS = 1e-50;
 
     
@@ -344,3 +344,26 @@ set(F, 'Position', get(0, 'Screensize'));
 print(F,'~/Matlab/GaussMat/plots/Power/PS_SVD','-dpdf','-fillpage')
          
         
+
+
+  AA1.Eig   = LL;
+  AA1.Left  = mu;
+  AA1.Right = gamma;
+  AA1.IntPoints = points; 
+  AA1.IniPos = 1+mm*1;
+  AA1.FinPos  = r;
+  AA1.CoroBnd = UUP2;
+  AA1.ThmBnd  = UP2;
+  AA1.SingVal = s1/s1(1);
+  
+  AA1.Ar = Ar;
+  AA1.Br = Br;
+  AA1.Cr = Cr;
+  AA1.Er = Er;
+  AA1.Le = Le;
+  AA1.Ri = Ri;
+  
+  name = ['PowerSysTestDat_',num2str(p),'.mat'];
+  save(name, '-struct', 'AA1');   
+  
+  
