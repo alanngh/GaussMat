@@ -29,7 +29,7 @@ B = [Z ; I];
 C = [ones(1,p) , zeros(1,p)]/p;
 
 
-[V,D] =  eig(full(A),full(E));
+[V,D,W] =  eig(full(A),full(E));
 LL = diag(D);
 
 
@@ -259,7 +259,8 @@ N = 2*p;
     
     UUP = 1e5*ones(1,r);   % inicial in pos          
     UP = 1e5*ones(1,r);   % inicial in pos       
-    ConstV= cond(V)
+    ConstV = cond(V)
+    ConstW = cond(W) 
     s1(1)
                        
       for k= 1:r         
@@ -294,18 +295,18 @@ N = 2*p;
         for k= 1:r         
         for pos = (1+mm*k):r          
             if k == 1
-                UP2(pos) = 1*(S1_O(1))*(S1_R(1))*ConstV/s1(1);                
+                UP2(pos) = 1*(S1_O(1))*(S1_R(1))*ConstW/s1(1);                
             else
-                UP2(pos) = Zk2(k-1)*(S1_O(1))*(S1_R(1))*ConstV/s1(1);                
+                UP2(pos) = Zk2(k-1)*(S1_O(1))*(S1_R(1))*ConstW/s1(1);                
             end
             for i = 0:max(find(S1_O > TolS))        %min(SwapIndx,length(S1_O))
                 for j = 0:max(find(S1_R > TolS))    %min(SwapIndx,length(S1_R))
                     %[pos , pos+i+j]
                     if ((pos+i+j) <= r)
                         if k == 1
-                            tempB = 1*(S1_O(1+i))*(S1_R(1+j))*ConstV/s1(1);                            
+                            tempB = 1*(S1_O(1+i))*(S1_R(1+j))*ConstW/s1(1);                            
                         else
-                            tempB = Zk2(k-1)*(S1_O(1+i))*(S1_R(1+j))*ConstV/s1(1);                            
+                            tempB = Zk2(k-1)*(S1_O(1+i))*(S1_R(1+j))*ConstW/s1(1);                            
                         end                        
                         %tempB = Zk(k-1)*(S1_O(1+i))*(S1_R(1+j))*ConstV; 
                         if (tempB <= UUP2(pos+i+j) ) %&& tempB > s1(pos+i+j)/s1(1))  %removing noisy data 
@@ -363,7 +364,7 @@ print(F,'~/Matlab/GaussMat/plots/Power/PS_SVD','-dpdf','-fillpage')
   AA1.Le = Le;
   AA1.Ri = Ri;
   
-  name = ['PowerSysTestDat_',num2str(p),'.mat'];
+  name = ['PowerSysTestDat_',num2str(N),'.mat'];
   save(name, '-struct', 'AA1');   
   
   
