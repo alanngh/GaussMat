@@ -32,17 +32,55 @@ C = [ones(1,p) , zeros(1,p)]/p;
 [V,D,W] =  eig(full(A),full(E));
 LL = diag(D);
 
+% 
+% a = 1;
+% b = 100;
+% %points  =  (linspace(b,a,2*r) + r/2 +.5)*1i - 0.2 ;  %% b
+% LL = sort(LL);
+% Indx = find(abs(LL) > 1e-10) ;
+% points = -LL(Indx);
+% points = points(1:2*r);
+% abs(points)
 
 a = 1;
 b = 100;
 %points  =  (linspace(b,a,2*r) + r/2 +.5)*1i - 0.2 ;  %% b
 LL = sort(LL);
-Indx = find(abs(LL) > 1e-10) ;
-points = -LL(Indx);
-points = points(1:2*r);
+
+Indx =  find(imag(LL) > 0);
+Pts = LL(Indx);
+[Pts2, Indx]  = sort(abs(LL(Indx)));
+
+Pts = Pts(Indx) ;
+Pts = Pts(1:r)  ; %%  r complex points
+
+
+M = max(abs(Pts))
+
+Indx =  find(imag(LL) == 0);
+Pts2 = LL(Indx);
+Indx = find(abs(Pts2) > 1e-10 )
+Pts2 = Pts2(Indx);
+[Pts3, Indx]  = sort(abs(Pts2));
+Pts2 = Pts2(Indx);
+Indx = find( abs(Pts2) <=  M);
+Pts2 = Pts2(Indx)       %%% some posible real points 
+
+Nrp = length(Pts2);
+
+if ( mod(Nrp,2) == 0 )
+    Pts = Pts(1:(r-Nrp/2));
+    points = - [Pts2 ; conj(Pts) ; flip(Pts) ];
+else
+    PtsA = Pts(1:(r-(Nrp-1)/2));
+    PtsB = Pts(1:(r-(Nrp+1)/2));   %%% flip takes the conjugate 
+    points = - [Pts2 ; conj(PtsB) ; flip(PtsA) ]
+end
+
 abs(points)
-mu      = points(1:2:2*r) - 0.1;   
-gamma   = points(2:2:2*r) - 0.1;
+
+mu      = points(1:2:2*r) ;   
+gamma   = points(2:2:2*r) ;
 
 
 Espect =  figure('DefaultAxesFontSize',18)
@@ -336,13 +374,13 @@ figure(Espect)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'~/Matlab/GaussMat/plots/Power/PS_spectra','-dpdf','-fillpage')
+print(F,'~/Matlab/GaussMat/plots/Power/PS_spectraA','-dpdf','-fillpage')
 
 figure(SVDPlot)
 F = gcf;
 set(F,'PaperOrientation','landscape');
 set(F, 'Position', get(0, 'Screensize'));
-print(F,'~/Matlab/GaussMat/plots/Power/PS_SVD','-dpdf','-fillpage')
+print(F,'~/Matlab/GaussMat/plots/Power/PS_SVDA','-dpdf','-fillpage')
          
         
 

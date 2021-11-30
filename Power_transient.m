@@ -34,7 +34,7 @@ for i = 1:N
     y(i) = norm(expm(At*t(i)));
 end
 
-  AA1.y = t;
+  AA1.t = t;
   AA1.y = y;
   save('ExpoBnd2.mat', '-struct', 'AA1');  
 
