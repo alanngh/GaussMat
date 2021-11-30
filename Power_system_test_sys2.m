@@ -353,11 +353,14 @@ print(F,'~/Matlab/GaussMat/plots/Power/PS_SVD','-dpdf','-fillpage')
   AA1.Eig   = LL;
   AA1.Left  = mu;
   AA1.Right = gamma;
-  AA1.IntPoints = points; 
-  AA1.IniPos = 1+mm*1;
+  AA1.IntPoints = points;
+  AA1.IntPos1 = 1+pp*1; 
+  AA1.IniPos2 = 1+mm*1;
   AA1.FinPos  = r;
-  AA1.CoroBnd = UUP2;
-  AA1.ThmBnd  = UP2;
+  AA1.CoroBnd1 = UUP;
+  AA1.ThmBnd1 = UP;
+  AA1.CoroBnd2 = UUP2;
+  AA1.ThmBnd2  = UP2;
   AA1.SingVal = s1/s1(1);
   
   AA1.Ar = Ar;
