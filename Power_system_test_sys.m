@@ -79,8 +79,8 @@ end
 
 abs(points)
 
-mu      = points(1:2:2*r) ;   
-gamma   = points(2:2:2*r) ;
+mu      = points(1:2:2*r) + 0.1;   
+gamma   = points(2:2:2*r) + 0.1;
 
 
 Espect =  figure('DefaultAxesFontSize',18)
